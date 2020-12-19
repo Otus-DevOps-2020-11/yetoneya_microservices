@@ -1,0 +1,2 @@
+# yetoneya_microservices
+yetoneya microservices repository
