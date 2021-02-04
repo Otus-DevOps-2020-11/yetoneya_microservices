@@ -4,9 +4,9 @@ yetoneya microservices repository
 
 ## homework-12
 
-установлен Docker и docker-machine
+установлен Docker, docker-machine, docker-compose
 
-docker version && docker info - проверка, что все нормально
+docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
 
 запущены контейнеры hello-word и ubuntu
 
@@ -120,9 +120,9 @@ docker run каждый раз запускает новый контейнер:
 
 загружен образ на Docker Hub
 
-в другой консоли выполнено:
+в консоли vm yc:
 
-docker run --name reddit -d -p 9292:9292 yetoneya/otus-reddit:1.0
+    docker run --name reddit -d -p 9292:9292 yetoneya/otus-reddit:1.0
 
 проверка:
 
@@ -130,13 +130,14 @@ docker run --name reddit -d -p 9292:9292 yetoneya/otus-reddit:1.0
 
 выполнены команды для проверки
 
-    elena@debian:~$ docker logs reddit -f
+    yc-user@docker-h:~$ docker logs reddit -f
     about to fork child process, waiting until server is ready for connections.
     forked process: 10
     child process started successfully, parent exiting
     Puma starting in single mode...
     ....
     ....
+    .... 
 
 
 
