@@ -79,7 +79,7 @@ docker run каждый раз запускает новый контейнер:
 
     eval $(docker-machine env docker-host)
 
-воспроизвели демо из лекции:
+повторили демо из лекции:
 
     yc-user@docker-host:~$ ps auxf
     USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
@@ -128,7 +128,7 @@ docker run каждый раз запускает новый контейнер:
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework12-02.png)
 
-выполнены команды для проверки
+выполнены команды для проверки, например:
 
     yc-user@docker-h:~$ docker logs reddit -f
     about to fork child process, waiting until server is ready for connections.
