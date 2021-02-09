@@ -1,0 +1,56 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+  ui:
+    build: ./ui
+    image: ${USERNAME}/otus-ui:${UI_VERSION}
+    ports:
+      - ${UI_PORT}:9292/tcp
+    networks:
+      - front_net
+    environment:
+      POST_SERVICE_HOST: post
+      POST_SERVICE_PORT: 5000
+      COMMENT_SERVICE_HOST: comment
+      COMMENT_SERVICE_PORT: ${UI_PORT}
+    command: ["puma --debug -w2"]
+  post:
+    build: ./post-py
+    image: ${USERNAME}/otus-post:${POST_VERSION}
+    networks:
+      - back_net
+      - front_net
+    environment:
+      POST_DATABASE_HOST: post_db
+      POST_DATABASE: posts
+  comment:
+    build: ./comment
+    image: ${USERNAME}/otus-comment:${COMMENT_VERSION}
+    networks:
+      - back_net
+      - front_net
+    environment:
+      COMMENT_DATABASE_HOST: comment_db
+      COMMENT_DATABASE: comments
+    command: ["puma --debug -w2"]
+volumes:
+  post_db:
+
+networks:
+  front_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet:  10.0.1.0/24
+  back_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet:  10.0.2.0/24
