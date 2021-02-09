@@ -139,6 +139,28 @@ docker run каждый раз запускает новый контейнер:
     ....
     .... 
 
+### задание со *
+
+директории ansible, terrafform, packer в docker-monolith/infra
+
+запуск: 
+
+в директории infra/packer:
+
+    packer validate -var-file=variables.json ./ubuntu-docker.json
+    packer build -var-file=variables.json ./ubuntu-docker.json
+
+в директории infra/terraform:
+
+    terraform init
+    terraform plan
+    terraform apply
+
+в директории infra/ansible:
+
+    ./import-inventory
+    ansible-playbook playbooks/start_reddit.yml
+
 
 
 

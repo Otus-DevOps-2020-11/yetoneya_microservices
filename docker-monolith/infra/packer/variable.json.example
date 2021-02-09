@@ -1,0 +1,7 @@
+{
+  "service_account_key_file": "./abcde.json",
+  "folder_id": "b1gbj6r7plnrmifr988p",
+  "subnet_id": "0000eh95ocin6vutga80",
+  "source_image_family": "dom-2",
+  "disk_size_gb": "20000"
+}
