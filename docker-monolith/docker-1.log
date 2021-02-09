@@ -1,0 +1,22 @@
+elena@debian:~$ docker images
+REPOSITORY      TAG            IMAGE ID       CREATED         SIZE
+ubuntu          latest         f643c72bc252   2 months ago    72.9MB
+hello-world     latest         bf756fb1ae65   13 months ago   13.3kB
+elena@debian:~$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED        STATUS                    PORTS     NAMES
+36712d3d8128   hello-world   "/hello"   2 months ago   Exited (0) 2 months ago             nervous_lamarr
+53f72a347f58   ubuntu        "bash"     2 months ago   Up 5 minutes                        compassionate_leavitt
+elena@debian:~$ docker start compassionate_leavitt
+compassionate_leavitt
+elena@debian:~$  docker commit compassionate_leavitt elena/ubuntu-tmp-file
+sha256:58f2d970e01560e818af419962816e702d4300ad8ca147a69a859a305a35f2ad
+elena@debian:~$  docker images
+REPOSITORY              TAG            IMAGE ID       CREATED              SIZE
+elena/ubuntu-tmp-file   latest         58f2d970e015   About a minute ago   72.9MB
+ubuntu                  latest         f643c72bc252   2 months ago         72.9MB
+hello-world             latest         bf756fb1ae65   13 months ago        13.3kB
+elena@debian:~$
+
+docker inspect <image_id> выводится информация об образе: (repo, parent, id контейнера, из которого создан образ, версия докера, конфигурация для контейнеров, информация о слоях)
+docker inspect <container_id> выводится информация об запущеном контейнере (state, HostConfig, Mounts,NetworkSettings, ссылка на образ)
+
