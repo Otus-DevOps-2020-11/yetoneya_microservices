@@ -178,6 +178,289 @@ docker run каждый раз запускает новый контейнер:
     ./import-inventory
     ansible-playbook playbooks/start_reddit.yml
 
+## homework-13
+
+приложение разделено на несколько компонентов, оптимизированы Dockerfiles(не уверена, что оптимизированы)
+
+    docker pull mongo:latest
+    docker build -t post:1.0 ./post-py
+    docker build -t comment:1.0 ./comment
+    docker build -t ui:1.0 ./ui
+    docker images -a
+    docker network create reddit
+    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post post:1.0
+    docker run -d --network=reddit --network-alias=comment comment:1.0
+    docker run -d --network=reddit -p 9292:9292 ui:1.0
+
+проверка
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework13-01.png)
+
+    docker login
+    docker tag post:latestyetoneya/otus-post:1.0
+    docker push yetoneya/otus-post:1.0
+    docker tag comment:latest yetoneya/otus-comment:1.0
+    docker push yetoneya/otus-comment:1.0
+    docker tag ui:latest yetoneya/otus-ui:1.0
+    docker push yetoneya/otus-ui:1.0
+
+    ssh yc-user@<ip>
+
+    yc-user@docker-h:~$<ip>
+    docker network create reddit
+    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post yetoneya/otus-post:1.0
+    docker run -d --network=reddit --network-alias=comment yetoneya/otus-comment:1.0
+    docker run -d --network=reddit -p 9292:9292 yetoneya/otus-ui:1.0
+
+проверка
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework13-02.png)
+
+### задание со * 
+
+запуск контейнеров с другими сетевыми алиасами:
+
+остановили контейнеры
+
+    docker kill $(docker ps -q)
+
+    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post-new post:latest
+    docker run -d --network=reddit --network-alias=comment-new comment:latest
+    docker run -d --network=reddit -p 9292:9292  -e POST_SERVICE_HOST=post-new  -e COMMENT_SERVICE_HOST=comment-new ui:latest
+
+    docker kill $(docker ps -q)
+
+изменен Dockerfile в директории ui, пересобрали
+
+    docker build -t ui:2.0 ./ui
+
+    REPOSITORY   TAG            IMAGE ID       CREATED          SIZE
+    ui           2.0            071ac2d151da   36 seconds ago   458MB
+    ui           1.0            e9c90cdb77ea   2 hours ago      771MB
+
+
+### задание со * 
+
+создан образ на основе Alpine Linux
+
+    docker build -t ui:3.0 ./ui
+
+    REPOSITORY   TAG            IMAGE ID       CREATED          SIZE
+    ui           3.0            4a0c918b6be8   14 seconds ago   203MB
+    ui           2.0            071ac2d151da   21 minutes ago   458MB
+    ui           1.0            e9c90cdb77ea   2 hours ago      771M
+
+    docker build -t ui:4.0 ./ui
+
+    REPOSITORY   TAG            IMAGE ID       CREATED          SIZE
+    ui           4.0            4a553482d620   59 seconds ago   52.8MB
+    ui           3.0            4a0c918b6be8   11 minutes ago   203MB
+    ui           2.0            071ac2d151da   32 minutes ago   458MB
+    ui           1.0            e9c90cdb77ea   2 hours ago      771MB
+
+
+    docker kill $(docker ps -q)
+
+    docker volume create reddit_db
+    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db -v reddit_db:/data/db mongo:latest
+    docker run -d --network=reddit --network-alias=post post:1.0
+    docker run -d --network=reddit --network-alias=comment comment:1.0
+    docker run -d --network=reddit -p 9292:9292 ui:2.0
+
+
+остановили контейнеры, затем перезапустили
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework13-03.png)
+
+    docker kill $(docker ps -q)
+
+
+## homework-14
+
+### networks
+
+Запустили контейнер с использованием none-драйвера:
+
+    eval $(docker-machine env docker-h)
+    docker-machine ssh docker-h
+
+yc-user@docker-h:~$
+
+    docker run -ti --rm --network none joffotron/docker-net-tools -c ifconfig
+    lo
+
+Запустили контейнер с использованием host-драйвера:
+
+    docker run -ti --rm --network host joffotron/docker-net-tools -c ifconfig 
+
+br-42b4029a01d0 docker0 eth0 lo
+
+yc-user@docker-h:~$ docker run --network host -d nginx
+
+    Unable to find image 'nginx:latest' locally
+    latest: Pulling from library/nginx
+    a076a628af6f: Pull complete
+    0732ab25fa22: Pull complete
+    d7f36f6fe38f: Pull complete
+    f72584a26f32: Pull complete
+    7125e4df9063: Pull complete
+    Digest: sha256:10b8cc432d56da8b61b070f4c7d2543a9ed17c2b23010b43af434fd40e2ca4aa
+    Status: Downloaded newer image for nginx:latest
+    d0e1eaaa0110e4eb8e80e37f37ad3530dbf6d2dba63ee9b8dd8d01441c0e5bcc
+
+yc-user@docker-h:~$ docker run --network host -d nginx
+
+    fed41d28ff36384dfac4fb4b7bfb0a5878a7823e5dc0abd4a647dca6a01774fc
+
+во второй раз использовался первый контейнер, сам первый контейнер был остановлен
+
+
+    CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS                     PORTS    NAMES
+    d0e1eaaa0110   nginx     "/docker-entrypoint.…"   About an hour ago   Up About an hour                    confident_lichterman
+
+    CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS                     PORTS     NAMES
+    fed41d28ff36   nginx     "/docker-entrypoint.…"   2 minutes ago       Exited (1) 2 minutes ago             heuristic_beaver
+    d0e1eaaa0110   nginx     "/docker-entrypoint.…"   About an hour ago   Up About an hour                     confident_lichterman
+
+net-namespaces
+
+    sudo ln -s /var/run/docker/netns /var/run/netns
+
+    docker network rm reddit 
+    docker network create reddit --driver none
+
+    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post yetoneya/otus-post:1.0
+    docker run -d --network=reddit --network-alias=comment yetoneya/otus-comment:1.0
+    docker run -d --network=reddit -p 9292:9292 yetoneya/otus-ui:1.0
+
+    sudo ip netns
+
+    .........
+
+    docker network rm reddit
+    docker network create reddit --driver host
+
+    .......
+
+Запустили с использованием bridge-сети
+
+    docker network rm reddit
+    docker network create reddit --driver bridge
+
+    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post yetoneya/otus-post:1.0
+    docker run -d --network=reddit --network-alias=comment yetoneya/otus-comment:1.0
+    docker run -d --network=reddit -p 9292:9292 yetoneya/otus-ui:1.0
+
+
+
+Запустили в двух bridge-сетях
+
+    docker kill $(docker ps -q)
+    (--driver bridge === default)
+    docker network create back_net  --driver bridge --subnet=10.0.2.0/24
+    docker network create front_net  --driver bridge --subnet=10.0.1.0/24
+
+
+    docker run -d --network=front_net -p 9292:9292 --name ui yetoneya/otus-ui:1.0
+    docker run -d --network=back_net --name comment --network-alias=comment yetoneya/otus-comment:1.0
+    docker run -d --network=back_net --name post --network-alias=post yetoneya/otus-post:1.0
+    docker run -d --network=back_net --name mongo_db --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker network connect front_net post
+    docker network connect front_net comment
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework14-01.png)
+
+информация о сетевых интерфейсах
+
+    sudo apt-get update && sudo apt-get install bridge-utils
+    docker network ls
+
+    NETWORK ID     NAME        DRIVER    SCOPE
+    1d250d9fb93e   back_net    bridge    local
+    c0aa6abbb7ff   bridge      bridge    local
+    789b5b146877   front_net   bridge    local
+    68de7983e752   host        host      local
+    22cbd7374693   none        null      local
+    814c8ac296d4   reddit      bridge    local
+
+    ifconfig | grep br
+
+    br-1d250d9fb93e: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+    ....
+
+    yc-user@docker-h:~$ brctl show br-1d250d9fb93e
+    bridge name             bridge id               STP enabled     interfaces
+    br-1d250d9fb93e         8000.02427804d003       no              veth2a0135a
+                                                                    veth88f69c8
+                                                                    vethbb067c3
+    sudo iptables -nL -t nat
+    ps ax | grep docker-proxy
+
+### docker-compose
+
+#### локально
+
+    docker-compose build
+    docker-compose up -d
+    docker ps
+
+        Name                  Command             State           Ports         
+    ----------------------------------------------------------------------------
+    src_comment_1   puma                          Up                            
+    src_post_1      python3 post_app.py           Up                            
+    src_post_db_1   docker-entrypoint.sh mongod   Up      27017/tcp             
+    src_ui_1        puma                          Up      0.0.0.0:9292->9292/tcp
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework14-02.png)
+
+#### yc
+
+создан файл docker-compose-yc.yml
+
+    eval $(docker-machine env docker-h)
+    docker-machine ssh docker-h
+    sudo apt update
+    sudo apt install python3-pip
+    sudo pip3 install docker-compose
+
+
+    docker-machine ssh docker-h docker kill $(docker ps -q)
+    docker-machine ssh docker-h docker rm $(docker ps -a -q)
+    docker-machine ssh docker-h docker rmi -f $(docker images -q)
+    docker-machine scp -r docker-compose-yc.yml docker-h:docker-compose.yml
+
+    docker-machine ssh docker-h docker-compose up -d
+    docker-machine ssh docker-h docker-compose ps
+
+          Name                    Command             State           Ports         
+    --------------------------------------------------------------------------------
+    yc-user_comment_1   puma                          Up                            
+    yc-user_post_1      python3 post_app.py           Up                            
+    yc-user_post_db_1   docker-entrypoint.sh mongod   Up      27017/tcp             
+    yc-user_ui_1        puma                          Up      0.0.0.0:9292->9292/tcp
+
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework14-03.png)
+
+
+#### базовое имя проекта
+
+
+имя сущности: директория,  в которой находится docker-compose.yml, tag
+
+базовое имя проекта можно задать в файле .env:
+
+    COMPOSE_PROJECT_NAME=SOMEPROJECTNAME
+
+### задание *
+
+docker-compose.override.yml
+
 
 
 
