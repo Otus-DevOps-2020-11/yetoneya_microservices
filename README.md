@@ -155,6 +155,37 @@ docker run каждый раз запускает новый контейнер:
     ....
     ....
     .... 
+        docker exec -it reddit bash
+    ps aux
+    killall5 1
+    docker start reddit
+    docker stop reddit && docker rm reddit
+    docker run --name reddit --rm -it /otus-reddit:1.0 bash
+    ps aux
+    exit
+
+    docker inspect /otus-reddit:1.0
+    docker run --name reddit -d -p 9292:9292 /otus-reddit:1.0
+
+    docker exec -it reddit bash
+    mkdir /test1234
+    touch /test1234/testfile
+    rmdir /opt
+    exit
+    docker diff reddit
+    docker stop reddit && docker rm reddit
+    docker run --name reddit --rm -it /otus-reddit:1.0 bash
+    ls /
+
+выполнены команды
+
+    docker kill $(docker ps -q)
+    docker rm $(docker ps -a -q)
+    docker rmi $(docker images -q)
+    docker rmi -f $(docker images -q)
+    docker network rm reddit
+    docker ps -a
+    docker images -a
 
 ### задание со *
 
