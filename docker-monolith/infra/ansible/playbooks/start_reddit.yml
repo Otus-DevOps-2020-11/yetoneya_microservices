@@ -1,0 +1,19 @@
+---
+- hosts: app
+  become: true
+  tasks:
+    - name: Install pip3
+      apt: name=python3-pip state=present
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Start reddit
+      docker_container:
+        name: reddit
+        image: yetoneya/otus-reddit:1.0
+        state: started
+        restart: yes
+        ports:
+          - "9292:9292"

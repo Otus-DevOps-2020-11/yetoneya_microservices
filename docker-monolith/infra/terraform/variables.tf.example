@@ -1,0 +1,51 @@
+variable service_account_key_file {
+  description = "Key"
+  type = string
+  default = "key.json"
+}
+
+variable cloud_id {
+  description = "Cloud"
+  type = string
+  default = "1"
+
+}
+
+variable folder_id {
+  description = "Folder"
+  type = string
+  default = "1"
+}
+
+variable zone {
+  description = "Zone"
+  default = "zone"
+}
+
+variable public_key_path {
+  description = "Path to the public key used for ssh access"
+  default = "path"
+}
+
+variable private_key_path {
+  description = "Path to the private key used for ssh access"
+  default = "path"
+}
+
+variable image_id {
+  description = "Disk image for reddit db"
+  default = "1"
+}
+
+variable subnet_id {
+  description = "Subnet"
+  type = string
+  default = "1"
+}
+
+variable count_app {
+  description = "Vm amount"
+  type = number
+  default = 1
+}
+
