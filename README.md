@@ -6,6 +6,19 @@ yetoneya microservices repository
 
 установлен Docker, docker-machine, docker-compose
 
+    sudo apt update
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+    sudo apt update
+    apt-cache policy docker-ce
+    sudo apt install docker-ce
+    sudo systemctl status docker
+
+    sudo usermod -aG docker ${USER}
+    sudo usermod -aG docker ${USER}
+
+
 docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
 
 запущены контейнеры hello-word и ubuntu
@@ -141,8 +154,8 @@ docker run каждый раз запускает новый контейнер:
     Puma starting in single mode...
     ....
     ....
-    ....
-    docker exec -it reddit bash
+    .... 
+        docker exec -it reddit bash
     ps aux
     killall5 1
     docker start reddit
@@ -163,7 +176,6 @@ docker run каждый раз запускает новый контейнер:
     docker stop reddit && docker rm reddit
     docker run --name reddit --rm -it /otus-reddit:1.0 bash
     ls /
-    
 
 выполнены команды
 
@@ -174,6 +186,28 @@ docker run каждый раз запускает новый контейнер:
     docker network rm reddit
     docker ps -a
     docker images -a
+
+### задание со *
+
+директории ansible, terrafform, packer в docker-monolith/infra
+
+запуск: 
+
+в директории infra/packer:
+
+    packer validate -var-file=variables.json ./ubuntu-docker.json
+    packer build -var-file=variables.json ./ubuntu-docker.json
+
+в директории infra/terraform:
+
+    terraform init
+    terraform plan
+    terraform apply
+
+в директории infra/ansible:
+
+    ./import-inventory
+    ansible-playbook playbooks/start_reddit.yml
 
 ## homework-13
 
@@ -457,3 +491,8 @@ net-namespaces
 ### задание *
 
 docker-compose.override.yml
+
+
+
+
+
