@@ -6,6 +6,19 @@ yetoneya microservices repository
 
 установлен Docker, docker-machine, docker-compose
 
+    sudo apt update
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+    sudo apt update
+    apt-cache policy docker-ce
+    sudo apt install docker-ce
+    sudo systemctl status docker
+
+    sudo usermod -aG docker ${USER}
+    sudo usermod -aG docker ${USER}
+
+
 docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
 
 запущены контейнеры hello-word и ubuntu
@@ -50,7 +63,7 @@ docker run каждый раз запускает новый контейнер:
 
 ### yc
 
-создала compute instance на yc 
+создан compute instance на yc 
 
     yc compute instance create \
     --folder-name catalog \
@@ -63,7 +76,7 @@ docker run каждый раз запускает новый контейнер:
     one_to_one_nat:
       address: 84.252.131.39
 
-создали docker-machine
+создан docker-machine
 
     docker-machine create \
       --driver generic \
@@ -79,7 +92,7 @@ docker run каждый раз запускает новый контейнер:
 
     eval $(docker-machine env docker-host)
 
-повторили демо из лекции:
+демо из лекции:
 
     yc-user@docker-host:~$ ps auxf
     USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
@@ -102,11 +115,11 @@ docker run каждый раз запускает новый контейнер:
 
 создан Dockerfile и файлы конфигурации
 
-собран образ: docker build -t reddit:latest
+создан образ
 
-в списке образов:  docker images -a
+    docker build -t reddit:latest .
 
-запустили:
+запусk:
 
     elena@debian:~$ docker run --name reddit -d --network=host reddit:latest
     421ced171624459be47bdebd6a397f52cdf46813aee618cf1b46d485cd16591c
@@ -120,6 +133,10 @@ docker run каждый раз запускает новый контейнер:
 
 загружен образ на Docker Hub
 
+    docker login
+    docker tag reddit:latest yetoneya/otus-reddit:1.0
+    docker push yetoneya/otus-reddit:1.0
+
 в консоли vm yc:
 
     docker run --name reddit -d -p 9292:9292 yetoneya/otus-reddit:1.0
@@ -128,7 +145,7 @@ docker run каждый раз запускает новый контейнер:
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework12-02.png)
 
-выполнены команды для проверки, например:
+выполнены команды для проверки
 
     yc-user@docker-h:~$ docker logs reddit -f
     about to fork child process, waiting until server is ready for connections.
