@@ -9,15 +9,26 @@ yetoneya microservices repository
     sudo apt update
     sudo apt install apt-transport-https ca-certificates curl software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+    #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     sudo apt update
     apt-cache policy docker-ce
     sudo apt install docker-ce
     sudo systemctl status docker
 
     sudo usermod -aG docker ${USER}
-    sudo usermod -aG docker ${USER}
+    su - ${USER}
 
+    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose --version
+
+    wget https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-$(uname -s)-$(uname -m)
+    mv docker-machine-Linux-x86_64 docker-machine
+    chmod +x docker-machine
+    sudo mv docker-machine /usr/local/bin
+    docker-machine version 
+    
 
 docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
 
@@ -491,6 +502,9 @@ net-namespaces
 ### задание *
 
 docker-compose.override.yml
+
+
+## homework-15
 
 
 
