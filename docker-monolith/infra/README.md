@@ -5,8 +5,9 @@ packer build -var-file=variables.json ./ubuntu-docker.json
 
 ### terraform
 
-packer validate -var-file=variables.json ./ubuntu-docker.json
-packer build -var-file=variables.json ./ubuntu-docker.json
+terraform init
+terraform plan
+terraform apply
 
 ### image
 
