@@ -7,7 +7,7 @@ provider "yandex" {
 
 resource "yandex_compute_instance" "app" {
   count = var.count_app * 1
-  name = "ubuntu-docker-${count.index}"
+  name = "ubuntu-docker-app-${count.index}"
 
   resources {
     cores = 2

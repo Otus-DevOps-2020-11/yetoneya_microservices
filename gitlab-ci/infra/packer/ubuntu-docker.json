@@ -12,7 +12,7 @@
       "subnet_id": "{{user `subnet_id`}}",
       "disk_type": "network-hdd",
       "disk_size_gb": "{{user `disk_size_gb`}}",
-      "instance_mem_gb": 5,
+      "instance_mem_gb": 6,
       "ssh_username": "ubuntu",
       "ssh_private_key_file": "{{user `private_key_file`}}",
       "platform_id": "standard-v1"

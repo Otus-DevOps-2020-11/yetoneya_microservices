@@ -507,22 +507,19 @@ docker-compose.override.yml
 
 ## homework-15
 
+установлен и запущен gitlab_ci, выполнены пп. 2.1 - 6.2
 
 
-- name: Install docker-compose
-  remote_user: ubuntu
-  get_url:
-  url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
-  dest: /usr/local/bin/docker-compose
-  mode: 'u+x,g+x'
+[![](https://github.com/yetoneya/pictures/blob/main/homework15-01.png)
 
-- name: Install Docker-compose
-  become: yes
-  #  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  get_url:
-  url: "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
-  dest: /usr/local/bin/docker-compose
-  mode: +x
+#### задание со *
+
+директория gitlab_ci/infra
+
+### окружения
+
+
+
 
 
 
