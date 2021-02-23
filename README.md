@@ -19,6 +19,16 @@ yetoneya microservices repository
     sudo usermod -aG docker ${USER}
     su - ${USER}
 
+    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose --version
+
+    wget https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-$(uname -s)-$(uname -m)
+    mv docker-machine-Linux-x86_64 docker-machine
+    chmod +x docker-machine
+    sudo mv docker-machine /usr/local/bin
+    docker-machine version 
+    
 
 docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
 
@@ -200,7 +210,9 @@ docker run каждый раз запускает новый контейнер:
     packer build -var-file=variables.json ./ubuntu-docker.json
 
 в директории infra/terraform:
-
+ 
+id образа -> image_id   
+    
     terraform init
     terraform plan
     terraform apply
@@ -493,7 +505,24 @@ net-namespaces
 
 docker-compose.override.yml
 
+## homework-15
 
+
+
+- name: Install docker-compose
+  remote_user: ubuntu
+  get_url:
+  url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+  dest: /usr/local/bin/docker-compose
+  mode: 'u+x,g+x'
+
+- name: Install Docker-compose
+  become: yes
+  #  shell: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  get_url:
+  url: "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
+  dest: /usr/local/bin/docker-compose
+  mode: +x
 
 
 
