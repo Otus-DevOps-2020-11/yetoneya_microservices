@@ -555,9 +555,7 @@ docker-compose.override.yml
     git remote rm gitlab
     git remote add gitlab http://84.252.130.104/homework/example.git
     git push gitlab gitlab-ci-1
-    git push -f gitlab gitlab-ci-1
 
-    unprotect
 
     sudo docker run -d --name gitlab-runner --restart always -v /srv/gitlabrunner/config:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:latest
 
