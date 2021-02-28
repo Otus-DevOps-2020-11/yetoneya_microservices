@@ -28,13 +28,12 @@ yetoneya microservices repository
     chmod +x docker-machine
     sudo mv docker-machine /usr/local/bin
     docker-machine version 
-    
 
-docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
+docker version && docker info && docker-compose --version && docker-machine --version - проверка, что все нормально
 
 запущены контейнеры hello-word и ubuntu
 
-выполнены команды  docker ps, docker ps -a, docker images 
+выполнены команды docker ps, docker ps -a, docker images
 
 docker run каждый раз запускает новый контейнер:
 
@@ -67,14 +66,13 @@ docker run каждый раз запускает новый контейнер:
 
 ### задание со *
 
-сравнение docker inspect <container_id> и  docker inspect <image_id>
+сравнение docker inspect <container_id> и docker inspect <image_id>
 
 остановлены запущенные контейнеры и затем удалены все контейнеры и образы
 
-
 ### yc
 
-создан compute instance на yc 
+создан compute instance на yc
 
     yc compute instance create \
     --folder-name catalog \
@@ -139,7 +137,6 @@ docker run каждый раз запускает новый контейнер:
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework12-01.png)
 
-
 ### Docker Hub
 
 загружен образ на Docker Hub
@@ -202,7 +199,7 @@ docker run каждый раз запускает новый контейнер:
 
 директории ansible, terrafform, packer в docker-monolith/infra
 
-запуск: 
+запуск:
 
 в директории infra/packer:
 
@@ -210,9 +207,9 @@ docker run каждый раз запускает новый контейнер:
     packer build -var-file=variables.json ./ubuntu-docker.json
 
 в директории infra/terraform:
- 
-id образа -> image_id   
-    
+
+id образа -> image_id
+
     terraform init
     terraform plan
     terraform apply
@@ -285,7 +282,6 @@ id образа -> image_id
     ui           2.0            071ac2d151da   36 seconds ago   458MB
     ui           1.0            e9c90cdb77ea   2 hours ago      771MB
 
-
 ### задание со * 
 
 создан образ на основе Alpine Linux
@@ -314,13 +310,11 @@ id образа -> image_id
     docker run -d --network=reddit --network-alias=comment comment:1.0
     docker run -d --network=reddit -p 9292:9292 ui:2.0
 
-
 остановили контейнеры, затем перезапустили
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework13-03.png)
 
     docker kill $(docker ps -q)
-
 
 ## homework-14
 
@@ -361,7 +355,6 @@ yc-user@docker-h:~$ docker run --network host -d nginx
 
 во второй раз использовался первый контейнер, сам первый контейнер был остановлен
 
-
     CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS                     PORTS    NAMES
     d0e1eaaa0110   nginx     "/docker-entrypoint.…"   About an hour ago   Up About an hour                    confident_lichterman
 
@@ -399,8 +392,6 @@ net-namespaces
     docker run -d --network=reddit --network-alias=post yetoneya/otus-post:1.0
     docker run -d --network=reddit --network-alias=comment yetoneya/otus-comment:1.0
     docker run -d --network=reddit -p 9292:9292 yetoneya/otus-ui:1.0
-
-
 
 Запустили в двух bridge-сетях
 
@@ -488,14 +479,11 @@ net-namespaces
     yc-user_post_db_1   docker-entrypoint.sh mongod   Up      27017/tcp             
     yc-user_ui_1        puma                          Up      0.0.0.0:9292->9292/tcp
 
-
 [![](https://github.com/yetoneya/pictures/blob/main/homework14-03.png)
-
 
 #### базовое имя проекта
 
-
-имя сущности: директория,  в которой находится docker-compose.yml, tag
+имя сущности: директория, в которой находится docker-compose.yml, tag
 
 базовое имя проекта можно задать в файле .env:
 
@@ -540,7 +528,7 @@ docker-compose.override.yml
       hostname: 'gitlab.example.com'
       environment:
         GITLAB_OMNIBUS_CONFIG: |
-          external_url 'http://<YOUR-VM-IP>'
+          external_url 'http://84.252.130.104'
       ports:
         - '80:80'
         - '443:443'
@@ -574,12 +562,29 @@ docker-compose.override.yml
 
 директория gitlab_ci/infra, RAM - вручную на YC
 
-
 #### окружения
 
 добавлены окружения, проверена работоспособность
 
+## homework-16
 
+yc compute instance create \
+--folder-name catalog \
+--name docker-host \
+--zone ru-central1-a \
+--network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+--create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804-lts,size=15 \
+--ssh-key ~/.ssh/id_rsa.pub
+
+docker-machine create \
+--driver generic \
+--generic-ip-address=84.201.175.231 \
+--generic-ssh-user yc-user \
+--generic-ssh-key ~/.ssh/id_rsa \
+docker-host
+
+eval $(docker-machine env docker-host)
+sudo docker run --rm -p 9090:9090 -d --name prometheus prom/prometheus
 
 
 
