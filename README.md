@@ -540,7 +540,7 @@ docker-compose.override.yml
       hostname: 'gitlab.example.com'
       environment:
         GITLAB_OMNIBUS_CONFIG: |
-          external_url 'http://<YOUR-VM-IP>'
+          external_url 'http://84.252.130.104'
       ports:
         - '80:80'
         - '443:443'
