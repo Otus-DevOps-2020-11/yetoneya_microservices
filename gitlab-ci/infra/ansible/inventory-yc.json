@@ -1,0 +1,1 @@
+{"app":{"hosts":{"ubuntu-docker-app-0":{"ansible_host":"178.154.226.87"}}},"db":{"hosts":{"gitlab-ci-vm":{"ansible_host":"84.201.157.181"}}}}

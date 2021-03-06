@@ -1,0 +1,8 @@
+service_account_key_file = ""
+cloud_id = "cid"
+folder_id = "fid"
+zone = "ru-central1-a"
+image_id = "app"
+public_key_path = "path"
+private_key_path = "path"
+subnet_id = "id"

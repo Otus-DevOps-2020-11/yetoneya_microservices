@@ -1,0 +1,32 @@
+{
+  "builders": [
+    {
+      "type": "yandex",
+      "service_account_key_file": "{{user `service_account_key_file`}}",
+      "folder_id": "{{user `folder_id`}}",
+      "source_image_family": "{{user `source_image_family`}}",
+      "image_name": "ubuntu-docker-{{timestamp}}",
+      "image_family": "ubuntu-docker",
+      "zone": "ru-central1-a",
+      "use_ipv4_nat": true,
+      "subnet_id": "{{user `subnet_id`}}",
+      "disk_type": "network-hdd",
+      "disk_size_gb": "{{user `disk_size_gb`}}",
+      "instance_mem_gb": 6,
+      "ssh_username": "ubuntu",
+      "ssh_private_key_file": "{{user `private_key_file`}}",
+      "platform_id": "standard-v1"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "../ansible/playbooks/docker_install.yml"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "../ansible/playbooks/docker_compose_install.yml"
+    }
+  ]
+}
+

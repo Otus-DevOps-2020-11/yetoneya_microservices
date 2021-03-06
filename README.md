@@ -8,9 +8,11 @@ yetoneya microservices repository
 
     sudo apt update
     sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
     #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
     sudo apt update
     apt-cache policy docker-ce
     sudo apt install docker-ce
@@ -22,7 +24,7 @@ yetoneya microservices repository
     sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
     docker-compose --version
-
+    
     wget https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-$(uname -s)-$(uname -m)
     mv docker-machine-Linux-x86_64 docker-machine
     chmod +x docker-machine
@@ -210,7 +212,9 @@ docker run каждый раз запускает новый контейнер:
     packer build -var-file=variables.json ./ubuntu-docker.json
 
 в директории infra/terraform:
-
+ 
+id образа -> image_id   
+    
     terraform init
     terraform plan
     terraform apply
@@ -502,6 +506,83 @@ net-namespaces
 ### задание *
 
 docker-compose.override.yml
+
+## homework-15
+
+созданв vm на yc, установлены docker, docker-compose
+
+установлен и запущен gitlab_ci, выполнены пп. 2.1 - 6.2 дз
+
+    sudo apt update
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+
+    sudo apt update
+    apt-cache policy docker-ce
+    sudo apt install docker-ce
+    sudo systemctl status docker
+
+    sudo usermod -aG docker ${USER}
+    
+
+    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose --version
+
+    sudo mkdir -p /srv/gitlab/config /srv/gitlab/data /srv/gitlab/logs
+    cd /srv/gitlab
+    sudo nano docker-compose.yml
+    
+
+    web:
+      image: 'gitlab/gitlab-ce:latest'
+      restart: always
+      hostname: 'gitlab.example.com'
+      environment:
+        GITLAB_OMNIBUS_CONFIG: |
+          external_url 'http://84.252.130.104'
+      ports:
+        - '80:80'
+        - '443:443'
+        - '2222:22'
+      volumes:
+        - '/srv/gitlab/config:/etc/gitlab'
+        - '/srv/gitlab/logs:/var/log/gitlab'
+        - '/srv/gitlab/data:/var/opt/gitlab'
+
+    sudo docker-compose up -d
+
+    git remote rm gitlab
+    git remote add gitlab http://84.252.130.104/homework/example.git
+    git push gitlab gitlab-ci-1
+
+
+    sudo docker run -d --name gitlab-runner --restart always -v /srv/gitlabrunner/config:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:latest
+
+    sudo docker exec -it gitlab-runner gitlab-runner register \
+    --url http://84.252.130.104/ \
+    --non-interactive \
+    --locked=false \
+    --name DockerRunner \
+    --executor docker \
+    --docker-image alpine:latest \
+    --registration-token vtvsPsywhGbxyVwmX2Mf \
+    --tag-list "linux,xenial,ubuntu,docker" \
+    --run-untagged
+
+#### задание со *
+
+директория gitlab_ci/infra, RAM - вручную на YC
+
+
+#### окружения
+
+добавлены окружения, проверена работоспособность
+
+
+
 
 
 ## homework-15
