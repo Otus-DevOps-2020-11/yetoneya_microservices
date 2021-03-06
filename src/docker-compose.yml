@@ -23,21 +23,35 @@ services:
     image: ${USERNAME}/otus-post:${POST_VERSION}
     networks:
       back_net:
-        aliases: post
+        aliases:
+          - post
       front_net:
-        aliases: post
-     environment:
-        - DEBUG=1
+        aliases:
+          - post
   comment:
     build: ./comment
     image: ${USERNAME}/otus-comment:${COMMENT_VERSION}
     networks:
       back_net:
-        aliases: post
+        aliases:
+          - post
       front_net:
-        aliases: post
-    environment:
-       - DEBUG=1
+        aliases:
+          - post
+  prometheus:
+    image: yetoneya/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention=1d"
+    networks:
+      - front_net
+      - back_net
+
 volumes:
   post_db:
 

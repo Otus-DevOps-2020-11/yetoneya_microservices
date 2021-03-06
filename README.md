@@ -11,6 +11,9 @@ yetoneya microservices repository
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
 
+    #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+ 
     sudo apt update
     apt-cache policy docker-ce
     sudo apt install docker-ce
@@ -267,7 +270,7 @@ id образа -> image_id
 
     docker kill $(docker ps -q)
 
-    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post_db --netwodocker-machine ssh docker-hostrk-alias=comment_db mongo:latest
     docker run -d --network=reddit --network-alias=post-new post:latest
     docker run -d --network=reddit --network-alias=comment-new comment:latest
     docker run -d --network=reddit -p 9292:9292  -e POST_SERVICE_HOST=post-new  -e COMMENT_SERVICE_HOST=comment-new ui:latest
@@ -568,26 +571,14 @@ docker-compose.override.yml
 
 ## homework-16
 
-yc compute instance create \
---folder-name catalog \
---name docker-host \
---zone ru-central1-a \
---network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
---create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804-lts,size=15 \
---ssh-key ~/.ssh/id_rsa.pub
+основы работы  с prometheus:
 
-docker-machine create \
---driver generic \
---generic-ip-address=84.201.175.231 \
---generic-ssh-user yc-user \
---generic-ssh-key ~/.ssh/id_rsa \
-docker-host
+[![](https://github.com/yetoneya/pictures/blob/main/homework16-01.png)
 
-eval $(docker-machine env docker-host)
-sudo docker run --rm -p 9090:9090 -d --name prometheus prom/prometheus
-
-
-
-
+https://hub.docker.com/repository/docker/yetoneya/ui
+https://hub.docker.com/repository/docker/yetoneya/post
+https://hub.docker.com/repository/docker/yetoneya/comment
+https://hub.docker.com/repository/docker/yetoneya/prometheus
+https://hub.docker.com/repository/docker/yetoneya/mongo-exporter
 
 

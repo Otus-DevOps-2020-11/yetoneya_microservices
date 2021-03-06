@@ -1,0 +1,59 @@
+version: '3.3'
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    networks:
+      - reddit
+  mongodb-exporter:
+    image: yetoneya/mongo-exporter:1.0
+    restart: always
+    command: ./mongodb_exporter-linux-amd64 -mongodb.uri mongodb://mongo_db:27017
+    networks:
+      - reddit
+    ports:
+      - 9001:9001
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      - reddit
+  ui:
+    image: yetoneya/ui:latest
+    ports:
+      - 9292:9292/tcp
+    networks:
+      - reddit
+  post:
+    image: yetoneya/post:latest
+    networks:
+      - reddit
+  comment:
+    image: yetoneya/comment:latest
+    networks:
+      - reddit
+  prometheus:
+    image: yetoneya/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention=1d"
+    networks:
+      - reddit
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  reddit:
