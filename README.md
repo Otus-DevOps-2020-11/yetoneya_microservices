@@ -575,6 +575,10 @@ docker-compose.override.yml
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework16-01.png)
 
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework16-02.png)
+
+
 https://hub.docker.com/repository/docker/yetoneya/ui
 https://hub.docker.com/repository/docker/yetoneya/post
 https://hub.docker.com/repository/docker/yetoneya/comment
