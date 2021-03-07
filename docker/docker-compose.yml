@@ -10,13 +10,13 @@ services:
           - post_db
           - comment_db
   ui:
-    image: ${USERNAME}/otus-ui:${UI_VERSION}
+    image: ${USERNAME}/ui:latest
     ports:
       - ${UI_PORT}:${UI_PORT}/tcp
     networks:
       - front_net
   post:
-    image: ${USERNAME}/otus-post:${POST_VERSION}
+    image: ${USERNAME}/post:latest
     networks:
       back_net:
         aliases:
@@ -25,7 +25,7 @@ services:
         aliases:
           - post
   comment:
-    image: ${USERNAME}/otus-comment:${COMMENT_VERSION}
+    image: ${USERNAME}/comment:latest
     networks:
       back_net:
         aliases:
