@@ -9,14 +9,16 @@ services:
         aliases:
           - post_db
           - comment_db
+
   ui:
-    image: ${USERNAME}/ui:latest
+    image: yetoneya/ui:latest
     ports:
-      - ${UI_PORT}:${UI_PORT}/tcp
+      - 9292:9292/tcp
     networks:
       - front_net
+
   post:
-    image: ${USERNAME}/post:latest
+    image: yetoneya/post:latest
     networks:
       back_net:
         aliases:
@@ -24,8 +26,9 @@ services:
       front_net:
         aliases:
           - post
+
   comment:
-    image: ${USERNAME}/comment:latest
+    image: yetoneya/comment:latest
     networks:
       back_net:
         aliases:
@@ -33,10 +36,11 @@ services:
       front_net:
         aliases:
           - comment
+
   prometheus:
     image: yetoneya/prometheus:latest
     ports:
-      - "9090:9090"
+      - '9090:9090'
     volumes:
       - prometheus_data:/prometheus
     command:
@@ -46,7 +50,8 @@ services:
     networks:
       - front_net
       - back_net
-  node-exporter:
+
+  node_exporter:
     image: prom/node-exporter:v0.15.2
     volumes:
       - /proc:/host/proc:ro
@@ -59,6 +64,22 @@ services:
     networks:
       - front_net
       - back_net
+
+  blackbox_exporter:
+    image: yetoneya/blackbox_exporter:latest
+    networks:
+      - back_net
+      - front_net
+    command:
+      - '--config.file=/etc/blackbox_exporter/blackbox.yml'
+
+  mongodb_exporter:
+    image: bitnami/mongodb-exporter:latest
+    networks:
+      - back_net
+    command:
+      - '--mongodb.uri=mongodb://post_db:27017'
+
 volumes:
   post_db:
   prometheus_data:
