@@ -7,17 +7,17 @@ services:
     networks:
       - reddit
   ui:
-    image: yetoneya/otus-ui:1.0
+    image: yetoneya/otus-ui:latest
     ports:
       - 9292:9292/tcp
     networks:
       - reddit
   post:
-    image: yetoneya/otus-post:1.0
+    image: yetoneya/otus-post:latest
     networks:
       - reddit
   comment:
-    image: yetoneya/otus-comment:1.0
+    image: yetoneya/otus-comment:latest
     networks:
       - reddit
 
