@@ -9,36 +9,34 @@ services:
         aliases:
           - post_db
           - comment_db
-
   ui:
-    image: yetoneya/ui:latest
+    build: ../src/ui
+    image: ${UNAME}/ui:latest
     ports:
-      - 9292:9292/tcp
+      - ${UI_PORT}:${UI_PORT}/tcp
     networks:
       - front_net
-
   post:
-    image: yetoneya/post:latest
+    build: ../src/post-py
+    image: ${UNAME}/post:latest
+    ports:
+      - "5000:5000"
     networks:
       back_net:
-        aliases:
-          - post
       front_net:
         aliases:
           - post
-
   comment:
-    image: yetoneya/comment:latest
+    build: ../src/comment
+    image: ${UNAME}/comment:latest
     networks:
       back_net:
-        aliases:
-          - comment
       front_net:
         aliases:
           - comment
-
   prometheus:
-    image: yetoneya/prometheus:latest
+    build: ../monitoring/prometheus
+    image: ${UNAME}/prometheus:latest
     ports:
       - '9090:9090'
     volumes:
@@ -50,7 +48,6 @@ services:
     networks:
       - front_net
       - back_net
-
   node_exporter:
     image: prom/node-exporter:v0.15.2
     volumes:
@@ -64,45 +61,23 @@ services:
     networks:
       - front_net
       - back_net
-
   blackbox_exporter:
-    image: yetoneya/blackbox_exporter:latest
+    image: ${UNAME}/blackbox_exporter:latest
     networks:
       - back_net
       - front_net
     command:
       - '--config.file=/etc/blackbox_exporter/blackbox.yml'
-
   mongodb_exporter:
     image: bitnami/mongodb-exporter:latest
     networks:
       - back_net
     command:
       - '--mongodb.uri=mongodb://post_db:27017'
-
 volumes:
   post_db:
   prometheus_data:
-
 networks:
   front_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.0.1.0/24
   back_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.0.2.0/24
-
-
-
-
-
-
-
-
 
