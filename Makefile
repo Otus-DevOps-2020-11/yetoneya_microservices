@@ -1,35 +1,37 @@
-SHELL=/bin/sh
+SHELL = /bin/sh
+UNAME ?= yetoneya
+TAG ?= 1.1
 
 .PHONY: build push
 
 build: build_comment build_post build_ui build_prometheus build_blackbox
 
 build_comment:
-		docker build -t  yetoneya/comment:1.1 src/comment
+		docker build -t  $(UNAME)/comment:$(TAG) src/comment
 build_post:
-		docker build -t yetoneya/post:1.1 src/post-py
+		docker build -t $(UNAME)/post:$(TAG) src/post-py
 build_ui:
-		docker build -t yetoneya/ui:1.1 src/ui
+		docker build -t $(UNAME)/ui:$(TAG) src/ui
 build_prometheus:
-		docker build -t yetoneya/prometheus:1.1 monitoring/prometheus
+		docker build -t $(UNAME)/prometheus:$(TAG) monitoring/prometheus
 build_blackbox:
-		docker build  -t yetoneya/blackbox:1.1 monitoring/blackbox_exporter
+		docker build  -t $(UNAME)/blackbox:$(TAG) monitoring/blackbox_exporter
 
 push: push_comment push_post push_ui push_prometheus push_blackbox
 
 push_comment:
 		docker login
-		docker push  yetoneya/comment:1.1
+		docker push  $(UNAME)/comment:$(TAG)
 push_comment:
 		docker login
-		docker push yetoneya/post:1.1
+		docker push $(UNAME)/post:$(TAG)
 push_ui:
 		docker login
-		docker push yetoneya/ui:1.1
+		docker push $(UNAME)/ui:$(TAG)
 push_prometheus:
 		docker login
-		docker push yetoneya/prometheus:1.1
+		docker push $(UNAME)/prometheus:$(TAG)
 push_blackbox:
 		docker login
-		docker push yetoneya/blackbox:1.1
+		docker push $(UNAME)/blackbox:$(TAG)
 

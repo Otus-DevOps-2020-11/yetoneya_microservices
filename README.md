@@ -573,36 +573,6 @@ docker-compose.override.yml
 
 основы работы  с prometheus:
 
-yc compute instance create \
---folder-name catalog \
---name docker-host \
---zone ru-central1-a \
---network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
---create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804-lts,size=15 \
---ssh-key ~/.ssh/id_rsa.pub
-
-docker-machine create \
---driver generic \
---generic-ip-address=84.252.129.46 \
---generic-ssh-user yc-user \
---generic-ssh-key ~/.ssh/id_rsa \
-docker-host
-
-eval $(docker-machine env docker-host)
-
-    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    docker-compose --version
-
-docker-machine scp -r docker-compose.yml docker-host:docker-compose.yml
-sudo docker-machine ssh docker-host docker-compose up -d
-
-
-
-docker build -t yetoneya/prometheus:latest .
-docker push yetoneya/prometheus:latest
-docker-compose up -d
-
 [![](https://github.com/yetoneya/pictures/blob/main/homework16-01.png)
 
 
@@ -613,6 +583,12 @@ https://hub.docker.com/repository/docker/yetoneya/ui
 https://hub.docker.com/repository/docker/yetoneya/post
 https://hub.docker.com/repository/docker/yetoneya/comment
 https://hub.docker.com/repository/docker/yetoneya/prometheus
+
+#### задания *
+
+выполнены задания cо *. 
+
+
 
 
 
