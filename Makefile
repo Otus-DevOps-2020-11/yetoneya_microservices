@@ -1,44 +1,35 @@
 SHELL=/bin/sh
-TAG=make
-USERNAME=yetoneya
 
-all: build push
+.PHONY: build push
 
-#build
-
-build:  build_comment build_post build_ui build_prometheus build_blackbox
+build: build_comment build_post build_ui build_prometheus build_blackbox
 
 build_comment:
-        docker build -t $(USERNAME)/comment:$(TAG) src/comment
-
+		docker build -t  yetoneya/comment:1.1 src/comment
 build_post:
-        docker build -t $(USERNAME)/post:$(TAG) src/post-py
-
+		docker build -t yetoneya/post:1.1 src/post-py
 build_ui:
-        docker build -t $(USERNAME)/ui:$(TAG) src/ui
-
+		docker build -t yetoneya/ui:1.1 src/ui
 build_prometheus:
-        docker build -t $(USERNAME)/prometheus:$(TAG) monitoring/prometheus
-
+		docker build -t yetoneya/prometheus:1.1 monitoring/prometheus
 build_blackbox:
-        docker build -t $(USERNAME)/blackbox:$(TAG) monitoring/blackbox
-
-#push
+		docker build  -t yetoneya/blackbox:1.1 monitoring/blackbox_exporter
 
 push: push_comment push_post push_ui push_prometheus push_blackbox
 
 push_comment:
-        docker push $(USERNAME)/comment:$(TAG)
-
+		docker login
+		docker push  yetoneya/comment:1.1
 push_comment:
-        docker push $(USERNAME)/post:$(TAG)
-
+		docker login
+		docker push yetoneya/post:1.1
 push_ui:
-        docker push $(USERNAME)/ui:$(TAG)
-
+		docker login
+		docker push yetoneya/ui:1.1
 push_prometheus:
-        docker push $(USERNAME)/prometheus:$(TAG)
-
+		docker login
+		docker push yetoneya/prometheus:1.1
 push_blackbox:
-        docker push $(USERNAME)/blackbox:$(TAG)
+		docker login
+		docker push yetoneya/blackbox:1.1
 
