@@ -587,3 +587,10 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 #### задания *
 
 выполнены задания cо *. 
+
+
+## homework-17
+docker-compose up -d
+docker-compose -f docker-compose-monitoring.yml up -d
+docker-compose -f docker-compose-monitoring.yml down
+docker-compose down

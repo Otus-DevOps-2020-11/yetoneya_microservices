@@ -34,4 +34,3 @@ push_prometheus:
 push_blackbox:
 		docker login
 		docker push $(UNAME)/blackbox:$(TAG)
-
