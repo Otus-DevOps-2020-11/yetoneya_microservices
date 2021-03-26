@@ -1,0 +1,90 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:3.2
+    volumes:
+      - post_db:/data/db
+    networks:
+      back_net:
+        aliases:
+          - post_db
+          - comment_db
+  ui:
+    build: ../src/ui
+    image: ${UNAME}/ui:${TAG}
+    ports:
+      - ${UI_PORT}:9292/tcp
+    networks:
+      - front_net
+  post:
+    build: ../src/post-py
+    image: ${UNAME}/post:${TAG}
+    networks:
+      back_net:
+      front_net:
+        aliases:
+          - post
+  comment:
+    build: ../src/comment
+    image: ${UNAME}/comment:${TAG}
+    networks:
+      back_net:
+      front_net:
+        aliases:
+          - comment
+  prometheus:
+    build: ../monitoring/prometheus
+    image: ${UNAME}/prometheus:${TAG}
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention=1d"
+    networks:
+      - front_net
+      - back_net
+  node_exporter:
+    image: prom/node-exporter:v0.15.2
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - front_net
+      - back_net
+  blackbox_exporter:
+    image: ${UNAME}/blackbox_exporter:${TAG}
+    networks:
+      - back_net
+      - front_net
+    command:
+      - '--config.file=/etc/blackbox_exporter/blackbox.yml'
+  mongodb_exporter:
+    image: bitnami/mongodb-exporter:${TAG}
+    networks:
+      - back_net
+    command:
+      - '--mongodb.uri=mongodb://post_db:27017'
+volumes:
+  post_db:
+  prometheus_data:
+networks:
+  front_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.1.0/24
+  back_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.2.0/24

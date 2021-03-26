@@ -7,8 +7,8 @@ services:
     networks:
       - back_net
   ui:
-    build: ./ui
-    image: ${USERNAME}/otus-ui:${UI_VERSION}
+    build: ../src/ui
+    image: ${UNAME}/ui:latest
     ports:
       - ${UI_PORT}:9292/tcp
     networks:
@@ -20,8 +20,8 @@ services:
       COMMENT_SERVICE_PORT: ${UI_PORT}
     command: ["puma --debug -w2"]
   post:
-    build: ./post-py
-    image: ${USERNAME}/otus-post:${POST_VERSION}
+    build: ../src/post-py
+    image: ${UNAME}/post:latest
     networks:
       - back_net
       - front_net
@@ -29,8 +29,8 @@ services:
       POST_DATABASE_HOST: post_db
       POST_DATABASE: posts
   comment:
-    build: ./comment
-    image: ${USERNAME}/otus-comment:${COMMENT_VERSION}
+    build: ../src/comment
+    image: ${UNAME}/comment:latest
     networks:
       - back_net
       - front_net

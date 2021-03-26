@@ -7,11 +7,11 @@ services:
     networks:
       back_net:
         aliases:
-         - post_db
-         - comment_db
+          - post_db
+          - comment_db
   ui:
     build: ./ui
-    image: ${USERNAME}/otus-ui:${UI_VERSION}
+    image: ${UNAME}/otus-ui:latest
     ports:
       - ${UI_PORT}:${UI_PORT}/tcp
     networks:
@@ -20,24 +20,20 @@ services:
         - DEBUG=1
   post:
     build: ./post-py
-    image: ${USERNAME}/otus-post:${POST_VERSION}
+    image: ${UNAME}/otus-post:latest
     networks:
       back_net:
-        aliases: post
       front_net:
-        aliases: post
-     environment:
-        - DEBUG=1
+        aliases:
+          - post
   comment:
     build: ./comment
-    image: ${USERNAME}/otus-comment:${COMMENT_VERSION}
+    image: ${UNAME}/otus-comment:latest
     networks:
       back_net:
-        aliases: post
       front_net:
-        aliases: post
-    environment:
-       - DEBUG=1
+        aliases:
+          - comment
 volumes:
   post_db:
 
@@ -54,4 +50,3 @@ networks:
       driver: default
       config:
       - subnet:  10.0.2.0/24
-

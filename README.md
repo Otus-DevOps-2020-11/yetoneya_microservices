@@ -13,6 +13,9 @@ yetoneya microservices repository
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
     #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
+    #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+ 
     sudo apt update
     apt-cache policy docker-ce
     sudo apt install docker-ce
@@ -30,13 +33,12 @@ yetoneya microservices repository
     chmod +x docker-machine
     sudo mv docker-machine /usr/local/bin
     docker-machine version 
-    
 
-docker version && docker info && docker-compose --version  && docker-machine --version  - проверка, что все нормально
+docker version && docker info && docker-compose --version && docker-machine --version - проверка, что все нормально
 
 запущены контейнеры hello-word и ubuntu
 
-выполнены команды  docker ps, docker ps -a, docker images 
+выполнены команды docker ps, docker ps -a, docker images
 
 docker run каждый раз запускает новый контейнер:
 
@@ -69,14 +71,13 @@ docker run каждый раз запускает новый контейнер:
 
 ### задание со *
 
-сравнение docker inspect <container_id> и  docker inspect <image_id>
+сравнение docker inspect <container_id> и docker inspect <image_id>
 
 остановлены запущенные контейнеры и затем удалены все контейнеры и образы
 
-
 ### yc
 
-создан compute instance на yc 
+создан compute instance на yc
 
     yc compute instance create \
     --folder-name catalog \
@@ -141,7 +142,6 @@ docker run каждый раз запускает новый контейнер:
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework12-01.png)
 
-
 ### Docker Hub
 
 загружен образ на Docker Hub
@@ -204,7 +204,7 @@ docker run каждый раз запускает новый контейнер:
 
 директории ansible, terrafform, packer в docker-monolith/infra
 
-запуск: 
+запуск:
 
 в директории infra/packer:
 
@@ -212,9 +212,9 @@ docker run каждый раз запускает новый контейнер:
     packer build -var-file=variables.json ./ubuntu-docker.json
 
 в директории infra/terraform:
- 
-id образа -> image_id   
-    
+
+id образа -> image_id
+
     terraform init
     terraform plan
     terraform apply
@@ -272,7 +272,7 @@ id образа -> image_id
 
     docker kill $(docker ps -q)
 
-    docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db mongo:latest
+    docker run -d --network=reddit --network-alias=post_db --netwodocker-machine ssh docker-hostrk-alias=comment_db mongo:latest
     docker run -d --network=reddit --network-alias=post-new post:latest
     docker run -d --network=reddit --network-alias=comment-new comment:latest
     docker run -d --network=reddit -p 9292:9292  -e POST_SERVICE_HOST=post-new  -e COMMENT_SERVICE_HOST=comment-new ui:latest
@@ -286,7 +286,6 @@ id образа -> image_id
     REPOSITORY   TAG            IMAGE ID       CREATED          SIZE
     ui           2.0            071ac2d151da   36 seconds ago   458MB
     ui           1.0            e9c90cdb77ea   2 hours ago      771MB
-
 
 ### задание со * 
 
@@ -316,13 +315,11 @@ id образа -> image_id
     docker run -d --network=reddit --network-alias=comment comment:1.0
     docker run -d --network=reddit -p 9292:9292 ui:2.0
 
-
 остановили контейнеры, затем перезапустили
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework13-03.png)
 
     docker kill $(docker ps -q)
-
 
 ## homework-14
 
@@ -363,7 +360,6 @@ yc-user@docker-h:~$ docker run --network host -d nginx
 
 во второй раз использовался первый контейнер, сам первый контейнер был остановлен
 
-
     CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS                     PORTS    NAMES
     d0e1eaaa0110   nginx     "/docker-entrypoint.…"   About an hour ago   Up About an hour                    confident_lichterman
 
@@ -401,8 +397,6 @@ net-namespaces
     docker run -d --network=reddit --network-alias=post yetoneya/otus-post:1.0
     docker run -d --network=reddit --network-alias=comment yetoneya/otus-comment:1.0
     docker run -d --network=reddit -p 9292:9292 yetoneya/otus-ui:1.0
-
-
 
 Запустили в двух bridge-сетях
 
@@ -490,14 +484,11 @@ net-namespaces
     yc-user_post_db_1   docker-entrypoint.sh mongod   Up      27017/tcp             
     yc-user_ui_1        puma                          Up      0.0.0.0:9292->9292/tcp
 
-
 [![](https://github.com/yetoneya/pictures/blob/main/homework14-03.png)
-
 
 #### базовое имя проекта
 
-
-имя сущности: директория,  в которой находится docker-compose.yml, tag
+имя сущности: директория, в которой находится docker-compose.yml, tag
 
 базовое имя проекта можно задать в файле .env:
 
@@ -576,18 +567,28 @@ docker-compose.override.yml
 
 директория gitlab_ci/infra, RAM - вручную на YC
 
-
 #### окружения
 
 добавлены окружения, проверена работоспособность
 
+## homework-16
+
+основы работы  с prometheus:
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework16-01.png)
 
 
-
+[![](https://github.com/yetoneya/pictures/blob/main/homework16-02.png)
 
 ## homework-15
 
 
 
+https://hub.docker.com/repository/docker/yetoneya/ui
+https://hub.docker.com/repository/docker/yetoneya/post
+https://hub.docker.com/repository/docker/yetoneya/comment
+https://hub.docker.com/repository/docker/yetoneya/prometheus
 
+#### задания *
 
+выполнены задания cо *. 
