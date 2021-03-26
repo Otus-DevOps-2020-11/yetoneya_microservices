@@ -22,7 +22,7 @@ push: push_comment push_post push_ui push_prometheus push_blackbox
 push_comment:
 		docker login
 		docker push  $(UNAME)/comment:$(TAG)
-push_comment:
+push_post:
 		docker login
 		docker push $(UNAME)/post:$(TAG)
 push_ui:

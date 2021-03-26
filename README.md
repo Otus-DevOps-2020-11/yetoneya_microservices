@@ -590,7 +590,9 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 
 
 ## homework-17
-docker-compose up -d
-docker-compose -f docker-compose-monitoring.yml up -d
-docker-compose -f docker-compose-monitoring.yml down
-docker-compose down
+
+основы работы с cAdvisor
+
+основы работы с grafana
+
+основы работы с alertmanager
