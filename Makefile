@@ -1,6 +1,6 @@
 SHELL = /bin/sh
 UNAME ?= yetoneya
-TAG ?= 1.1
+TAG ?= logging
 
 .PHONY: build push
 

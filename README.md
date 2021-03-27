@@ -470,7 +470,7 @@ net-namespaces
     docker-machine ssh docker-h docker kill $(docker ps -q)
     docker-machine ssh docker-h docker rm $(docker ps -a -q)
     docker-machine ssh docker-h docker rmi -f $(docker images -q)
-    docker-machine scp -r docker-compose-yc.yml docker-h:docker-compose.yml
+    docker-machine scp -r docker-compose-yc.sample docker-h:docker-compose.yml
 
     docker-machine ssh docker-h docker-compose up -d
     docker-machine ssh docker-h docker-compose ps
@@ -600,20 +600,4 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 
 ## homework-18
 
-    yc compute instance create \
-    --folder-name catalog \
-    --name logging \
-    --zone ru-central1-a \
-    --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
-    --create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804-lts,size=15 \
-    --memory 4 \
-    --ssh-key ~/.ssh/id_rsa.pub
-
-178.154.203.85
-
-    docker-machine create \
-      --driver generic \
-      --generic-ip-address=178.154.203.85 \
-      --generic-ssh-user yc-user \
-      --generic-ssh-key ~/.ssh/id_rsa \
-    logging
+выполнены задания дз Логирование Docker контейнеров

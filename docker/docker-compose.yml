@@ -16,6 +16,8 @@ services:
       - ${UI_PORT}:9292/tcp
     networks:
       - front_net
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
   post:
     build: ../src/post-py
     image: ${UNAME}/post:${TAG}
@@ -24,6 +26,8 @@ services:
       front_net:
         aliases:
           - post
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
   comment:
     build: ../src/comment
     image: ${UNAME}/comment:${TAG}
@@ -32,6 +36,8 @@ services:
       front_net:
         aliases:
           - comment
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 volumes:
   post_db:
 networks:

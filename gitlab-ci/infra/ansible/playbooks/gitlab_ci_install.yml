@@ -20,7 +20,7 @@
     - name: Config omnibus compose
       template:
         src: ../templates/docker-compose.j2
-        dest: '/srv/gitlab/docker-compose-yc.yml'
+        dest: '/srv/gitlab/docker-compose.yml'
 
     - name: Start gitlab-ci
       docker_compose:
