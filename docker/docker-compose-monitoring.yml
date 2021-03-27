@@ -4,10 +4,6 @@ services:
     image: ${UNAME}/prometheus:${TAG}
     ports:
       - 9090:9090
-    links:
-      - cadvisor:cadvisor
-      - node_exporter:node_exporter
-      - blackbox_exporter:blackbox_exporter
     volumes:
       - prometheus_data:/prometheus
     command:
@@ -64,8 +60,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=secret
     depends_on:
       - prometheus
-    links:
-      - prometheus:prometheus
     ports:
       - 3000:3000
     networks:
