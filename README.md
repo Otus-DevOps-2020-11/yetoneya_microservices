@@ -596,3 +596,24 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 основы работы с grafana
 
 основы работы с alertmanager
+
+
+## homework-18
+
+    yc compute instance create \
+    --folder-name catalog \
+    --name logging \
+    --zone ru-central1-a \
+    --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+    --create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1804-lts,size=15 \
+    --memory 4 \
+    --ssh-key ~/.ssh/id_rsa.pub
+
+178.154.203.85
+
+    docker-machine create \
+      --driver generic \
+      --generic-ip-address=178.154.203.85 \
+      --generic-ssh-user yc-user \
+      --generic-ssh-key ~/.ssh/id_rsa \
+    logging
