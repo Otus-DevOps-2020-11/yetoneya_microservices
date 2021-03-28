@@ -472,7 +472,7 @@ net-namespaces
     docker-machine ssh docker-h docker kill $(docker ps -q)
     docker-machine ssh docker-h docker rm $(docker ps -a -q)
     docker-machine ssh docker-h docker rmi -f $(docker images -q)
-    docker-machine scp -r docker-compose-yc.yml docker-h:docker-compose.yml
+    docker-machine scp -r docker-compose-yc.sample docker-h:docker-compose.yml
 
     docker-machine ssh docker-h docker-compose up -d
     docker-machine ssh docker-h docker-compose ps
@@ -592,3 +592,17 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 #### задания *
 
 выполнены задания cо *. 
+
+
+## homework-17
+
+основы работы с cAdvisor
+
+основы работы с grafana
+
+основы работы с alertmanager
+
+
+## homework-18
+
+выполнены задания дз Логирование Docker контейнеров
