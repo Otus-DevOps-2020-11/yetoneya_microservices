@@ -1,0 +1,11 @@
+---
+global:
+  slack_api_url: 'https://devops-team-otus.slack.com/archives/C01HM9JH21Z'
+
+route:
+  receiver: 'slack-notifications'
+
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+      - channel: '#elena_zhiltsova'
