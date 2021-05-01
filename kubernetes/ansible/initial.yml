@@ -1,0 +1,8 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: allow 'elena' to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'elena ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
