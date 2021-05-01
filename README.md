@@ -605,4 +605,19 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 
 ## homework-18
 
-выполнены задания дз Логирование Docker контейнеров
+выполнены задания дз логгирование Docker контейнеров
+
+## homework-19
+
+выполнены команды:
+
+ansible-playbook initial.yml - запуск команд sudo без ввода пароля
+
+sudo curl https://docs.projectcalico.org/manifests/calico.yaml -O на каждой ноде
+
+ansible-playbook cube-dependencies.yml - установка зависимостей kubernetes
+ansible-playbook master.yml - настройка главного узла
+ansible-playbook workers.yml - настройка рабочих узлов
+
+kubectl apply -f calico.yaml - на master
+
