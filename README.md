@@ -672,7 +672,7 @@ check:
 
     kubectl apply -f ./reddit
   
-    kubectl -n my-ns delete pod,svc --all 
+    minikube delete --all
 
     elena@debian:~/Documents/yetoneya_microservices/kubernetes$ kubectl get deployment
     NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
@@ -686,3 +686,35 @@ check:
     
     kubectl get pods --selector component=ui
     kubectl port-forward <pod-name> 9292:9292
+
+    kubectl exec -ti <pod-name> nslookup post 
+
+    kubectl logs ui-744fbc944-vkh8j
+
+    elena@debian:~/Documents/yetoneya_microservices/kubernetes$ minikube service ui
+
+     |-----------|------|-------------|-----------------------------|
+     | NAMESPACE | NAME | TARGET PORT |             URL             |
+     |-----------|------|-------------|-----------------------------|
+     | default   | ui   |        9292 | http://192.168.99.100:30429 |
+     |-----------|------|-------------|-----------------------------|
+
+     elena@debian:~/Documents/yetoneya_microservices/kubernetes$ minikube service list
+     |-------------|------------|--------------|-----------------------------|
+     |  NAMESPACE  |    NAME    | TARGET PORT  |             URL             |
+     |-------------|------------|--------------|-----------------------------|
+     | default     | comment    | No node port |
+     | default     | comment-db | No node port |
+     | default     | kubernetes | No node port |
+     | default     | mongodb    | No node port |
+     | default     | post       | No node port |
+     | default     | post-db    | No node port |
+     | default     | ui         |         9292 | http://192.168.99.100:30429 |
+     | kube-system | kube-dns   | No node port |
+     |-------------|------------|--------------|-----------------------------|
+
+dashboard:
+
+    minikube dashboard
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework20-01.png)
