@@ -1,0 +1,9 @@
+[masters]
+node-0 ansible_host=178.154.203.35 ansible_user=elena
+
+[workers]
+node-1 ansible_host=178.154.206.8 ansible_user=elena
+node-2 ansible_host=178.154.203.39 ansible_user=elena
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
