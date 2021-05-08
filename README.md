@@ -717,4 +717,6 @@ dashboard:
 
     minikube dashboard
 
+проверка:
+
 [![](https://github.com/yetoneya/pictures/blob/main/homework20-01.png)

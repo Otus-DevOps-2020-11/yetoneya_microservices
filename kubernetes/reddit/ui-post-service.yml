@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ui
+  name: ui-post
   labels:
     app: reddit
     component: post
