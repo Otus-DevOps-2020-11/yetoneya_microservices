@@ -623,6 +623,7 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 
 ### задание со * - директории terraform, ansible
 
+
 ## homework-20
 
 #### установка kubectl:
