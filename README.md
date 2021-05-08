@@ -623,3 +623,101 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 
 ### задание со * - директории terraform, ansible
 
+
+## homework-20
+
+#### установка kubectl:
+
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+
+validate:
+
+    echo "$(<kubectl.sha256) kubectl" | sha256sum --check 
+
+install:
+
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+check:
+
+    kubectl version --client
+
+
+#### установка VirtualBox:
+
+    deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian buster contrib -> /etc/apt/sources.list
+
+    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+
+    sudo apt update
+    sudo apt install virtualbox-6.1
+
+#### установка minikube
+
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+    minikube start
+ 
+проверка:
+
+    elena@debian:~$ kubectl get nodes
+    NAME       STATUS   ROLES                  AGE   VERSION
+    minikube   Ready    control-plane,master   48s   v1.20.2
+
+    cat ~/.kube/config
+
+    kubectl config current-context
+
+    kubectl apply -f ./reddit
+  
+    minikube delete --all
+
+    elena@debian:~/Documents/yetoneya_microservices/kubernetes$ kubectl get deployment
+    NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
+    comment              3/3     3            3           21m
+    mongo                1/1     1            1           19m
+    post                 3/3     3            3           21m
+    ui                   3/3     3            3           21m
+
+    elena@debian:~/Documents/yetoneya_microservices/kubernetes$ kubectl describe service comment | grep Endpoints
+    Endpoints:         172.17.0.12:9292,172.17.0.18:9292,172.17.0.20:9292
+    
+    kubectl get pods --selector component=ui
+    kubectl port-forward <pod-name> 9292:9292
+
+    kubectl exec -ti <pod-name> nslookup post 
+
+    kubectl logs ui-744fbc944-vkh8j
+
+    elena@debian:~/Documents/yetoneya_microservices/kubernetes$ minikube service ui
+
+     |-----------|------|-------------|-----------------------------|
+     | NAMESPACE | NAME | TARGET PORT |             URL             |
+     |-----------|------|-------------|-----------------------------|
+     | default   | ui   |        9292 | http://192.168.99.100:30429 |
+     |-----------|------|-------------|-----------------------------|
+
+     elena@debian:~/Documents/yetoneya_microservices/kubernetes$ minikube service list
+     |-------------|------------|--------------|-----------------------------|
+     |  NAMESPACE  |    NAME    | TARGET PORT  |             URL             |
+     |-------------|------------|--------------|-----------------------------|
+     | default     | comment    | No node port |
+     | default     | comment-db | No node port |
+     | default     | kubernetes | No node port |
+     | default     | mongodb    | No node port |
+     | default     | post       | No node port |
+     | default     | post-db    | No node port |
+     | default     | ui         |         9292 | http://192.168.99.100:30429 |
+     | kube-system | kube-dns   | No node port |
+     |-------------|------------|--------------|-----------------------------|
+
+dashboard:
+
+    minikube dashboard
+
+проверка:
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework20-01.png)

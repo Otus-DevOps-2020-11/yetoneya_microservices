@@ -1,0 +1,9 @@
+/kubernetes/terraform/variables.tf
+/kubernetes/terraform/terraform.tfvars
+/docker/docker-monolith/infra/terraform/key.json
+/kubernetes/terraform/key.json
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
