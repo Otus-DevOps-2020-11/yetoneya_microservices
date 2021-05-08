@@ -623,7 +623,6 @@ https://hub.docker.com/repository/docker/yetoneya/prometheus
 
 ### задание со * - директории terraform, ansible
 
-
 ## homework-20
 
 #### установка kubectl:
@@ -721,3 +720,42 @@ dashboard:
 проверка:
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework20-01.png)
+
+
+## homework-21
+
+ui-service.yml:  type: NodePort ->  type: LoadBalancer
+
+установлен Ingress, создан ui-ingress.yml
+
+
+применили конфигурацию.
+
+elena@debian:~/Documents/yetoneya_microservices/kubernetes$ kubectl get ingress
+NAME   CLASS    HOSTS   ADDRESS   PORTS   AGE
+ui     <none>   *                 80      12m
+
+
+elena@debian:~/Documents/yetoneya_microservices/kubernetes$ minikube service list
+|----------------------|------------------------------------|--------------|-----------------------------|
+|      NAMESPACE       |                NAME                | TARGET PORT  |             URL             |
+|----------------------|------------------------------------|--------------|-----------------------------|
+| default              | comment                            | No node port |
+| default              | comment-db                         | No node port |
+| default              | kubernetes                         | No node port |
+| default              | mongodb                            | No node port |
+| default              | post                               | No node port |
+| default              | post-db                            | No node port |
+| default              | ui                                 |           80 | http://192.168.99.101:32092 |
+| default              | ui-comment                         | No node port |
+| default              | ui-post                            | No node port |
+| ingress-nginx        | ingress-nginx-controller           | http/80      | http://192.168.99.101:31279 |
+|                      |                                    | https/443    | http://192.168.99.101:32264 |
+| ingress-nginx        | ingress-nginx-controller-admission | No node port |
+| kube-system          | kube-dns                           | No node port |
+| kubernetes-dashboard | dashboard-metrics-scraper          | No node port |
+| kubernetes-dashboard | kubernetes-dashboard               | No node port |
+|----------------------|------------------------------------|--------------|-----------------------------|
+
+
+[![](https://github.com/yetoneya/pictures/blob/main/homework21-01.png)
