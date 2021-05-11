@@ -1,0 +1,14 @@
+---
+dependencies:
+  - name: ui
+    version: 1.0.0
+    repository: "../ui"
+  - name: post
+    version: 1.0.0
+    repository: "../post"
+  - name: comment
+    version: 1.0.0
+    repository: "../comment"
+  - name: mongodb
+    version: 4.4.6
+    repository: https://charts.bitnami.com/bitnami
