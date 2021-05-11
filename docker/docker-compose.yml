@@ -19,7 +19,7 @@ services:
     environment:
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
   post:
-    build: ../src/post-py
+    build: ../src/post
     image: ${UNAME}/post:${TAG}
     networks:
       back_net:
