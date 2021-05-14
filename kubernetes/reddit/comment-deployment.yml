@@ -7,7 +7,6 @@ metadata:
     app: reddit
     component: comment
     ui-comment: "true"
-  name: comment-deployment
 spec:
   replicas: 3
   selector:
