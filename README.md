@@ -759,3 +759,11 @@ elena@debian:~/Documents/yetoneya_microservices/kubernetes$ minikube service lis
 
 
 [![](https://github.com/yetoneya/pictures/blob/main/homework21-01.png)
+
+
+## homework-22
+
+helm repo update
+
+helm install reddit --generate-name
+
