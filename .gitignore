@@ -7,3 +7,4 @@
 *.tfstate.backup
 *.tfvars
 .terraform/
+/kubernetes/Charts/prometheus/charts/kube-state-metrics/OWNERS

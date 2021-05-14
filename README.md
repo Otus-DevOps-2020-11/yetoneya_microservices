@@ -767,3 +767,6 @@ helm repo update
 
 helm install reddit --generate-name
 
+## homework-23
+
+helm install stable/prometheus 
