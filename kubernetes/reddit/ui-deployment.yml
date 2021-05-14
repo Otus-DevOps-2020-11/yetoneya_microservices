@@ -17,6 +17,7 @@ spec:
       name: ui
       labels:
         app: reddit
+        component: ui
     spec:
       containers:
         - image: yetoneya/ui
